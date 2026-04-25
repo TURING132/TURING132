@@ -1,0 +1,28 @@
+name: Update stars card
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-stars-card:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate stars card
+        run: python scripts/update-stars-card.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit updated card
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update project impact stars card"
+          file_pattern: assets/project-impact.svg
