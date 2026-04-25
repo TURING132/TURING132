@@ -1,0 +1,43 @@
+<svg width="495" height="150" viewBox="0 0 495 150" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Public Project Impact</title>
+  <desc id="desc">Total stars and forks across selected public repositories contributed to by Lee.</desc>
+
+  <style>
+    .card {
+      fill: #ffffff;
+      stroke: #e4e2e2;
+      stroke-width: 1;
+    }
+    .title {
+      font: 600 18px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #2f80ed;
+    }
+    .label {
+      font: 500 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #586069;
+    }
+    .value {
+      font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #24292e;
+    }
+    .small {
+      font: 400 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #586069;
+    }
+  </style>
+
+  <rect class="card" x="0.5" y="0.5" width="494" height="149" rx="8" />
+
+  <text class="title" x="24" y="36">Public Project Impact</text>
+
+  <text class="label" x="24" y="70">⭐ Stars from contributed repos</text>
+  <text class="value" x="24" y="105">57</text>
+
+  <text class="label" x="210" y="70">🍴 Forks</text>
+  <text class="value" x="210" y="105">9</text>
+
+  <text class="label" x="340" y="70">📦 Repositories</text>
+  <text class="value" x="340" y="105">5</text>
+
+  <text class="small" x="24" y="132">Includes selected public repositories owned by or contributed to by TURING132.</text>
+</svg>
