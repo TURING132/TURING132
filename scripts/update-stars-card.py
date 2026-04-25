@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 REPOS = [
     "aim-uofa/MMControl",
     "TURING132/ZJU-OS",
-     "TURING132/Game",
+    "TURING132/Game",
     "TURING132/L_Library",
     "TURING132/ZJU-database-DB-minisql",
 ]
