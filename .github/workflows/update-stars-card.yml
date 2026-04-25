@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Generate stars card
-        run: python scripts/update-stars-card.py
+        run: python3 scripts/update-stars-card.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

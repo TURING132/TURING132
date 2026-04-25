@@ -6,10 +6,8 @@ from datetime import datetime, timezone
 
 REPOS = [
     "aim-uofa/MMControl",
-    "aim-uofa/aim-uofa.github.io",
-    "TURING132/ActiveSpatial",
-    "TURING132/ActiveSpatial-Nips",
     "TURING132/ZJU-OS",
+     "TURING132/Game",
     "TURING132/L_Library",
     "TURING132/ZJU-database-DB-minisql",
 ]
@@ -50,100 +48,100 @@ total_stars = sum(item["stars"] for item in items)
 total_forks = sum(item["forks"] for item in items)
 repo_count = len(items)
 updated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+stars_text = f"{total_stars:,}"
+forks_text = f"{total_forks:,}"
+repos_text = f"{repo_count:,}"
 
-svg = f"""<svg width="495" height="210" viewBox="0 0 495 210" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+svg = f"""<svg width="860" height="560" viewBox="0 0 860 560" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Lee's GitHub Project Stats</title>
   <desc id="desc">Custom GitHub stats card showing total stars, total forks, and repository count across selected public repositories contributed to by Lee.</desc>
 
   <defs>
-    <linearGradient id="headerGradient" x1="0" y1="0" x2="495" y2="0" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#f6f8fa"/>
-      <stop offset="1" stop-color="#ffffff"/>
+    <filter id="cardShadow" x="33" y="38" width="794" height="484" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="16"/>
+      <feGaussianBlur stdDeviation="18"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.09 0 0 0 0 0.13 0 0 0 0 0.2 0 0 0 0.16 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+    <linearGradient id="panelGlow" x1="430" y1="76" x2="430" y2="484" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F8FAFD"/>
+    </linearGradient>
+    <linearGradient id="metricFill" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#FBFCFF"/>
     </linearGradient>
   </defs>
 
   <style>
-    .card {{
-      fill: #ffffff;
-      stroke: #d0d7de;
-      stroke-width: 1;
-    }}
-    .header {{
-      fill: url(#headerGradient);
-    }}
     .title {{
-      font: 700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-      fill: #24292f;
+      font: 700 42px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #2048b3;
     }}
     .subtitle {{
-      font: 400 11px -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-      fill: #57606a;
+      font: 400 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #6d7a92;
     }}
-    .label {{
-      font: 600 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-      fill: #24292f;
+    .metric-label {{
+      font: 400 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #2d3444;
     }}
-    .value {{
-      font: 700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-      fill: #24292f;
+    .metric-value {{
+      font: 700 44px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #1f2532;
     }}
     .footer {{
-      font: 400 11px -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-      fill: #57606a;
-    }}
-    .divider {{
-      stroke: #d8dee4;
-      stroke-width: 1;
-    }}
-    .pill {{
-      fill: #f6f8fa;
-      stroke: #d0d7de;
-      stroke-width: 1;
-    }}
-    .pill-icon {{
-      font: 400 14px -apple-system,BlinkMacSystemFont,"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;
-    }}
-    .pill-label {{
-      font: 600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-      fill: #57606a;
-    }}
-    .pill-value {{
-      font: 700 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-      fill: #24292f;
+      font: 400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #6d7a92;
     }}
   </style>
 
-  <rect class="card" x="0.5" y="0.5" width="494" height="209" rx="10" />
-  <rect class="header" x="1" y="1" width="493" height="64" rx="10" />
-  <line class="divider" x1="1" y1="65" x2="494" y2="65" />
+  <g filter="url(#cardShadow)">
+    <rect x="69" y="58" width="722" height="408" rx="24" fill="url(#panelGlow)"/>
+    <rect x="69.75" y="58.75" width="720.5" height="406.5" rx="23.25" stroke="#D6DDEA" stroke-width="1.5"/>
+  </g>
 
-  <!-- Logo badge -->
-  <circle cx="34" cy="33" r="16" fill="#24292f"/>
-  <text x="34" y="38" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13" font-weight="700" fill="#ffffff">GH</text>
+  <text class="title" x="118" y="145">Lee's GitHub Project Stats</text>
+  <text class="subtitle" x="118" y="190">Public repositories I own or actively contribute to</text>
 
-  <text class="title" x="60" y="30">Lee's GitHub Project Stats</text>
-  <text class="subtitle" x="60" y="47">Public repositories I own or actively contribute to</text>
+  <g>
+    <rect x="118" y="232" width="192" height="192" rx="20" fill="url(#metricFill)"/>
+    <rect x="118.75" y="232.75" width="190.5" height="190.5" rx="19.25" stroke="#D6DDEA" stroke-width="1.5"/>
+    <g transform="translate(187.6 256.5) scale(2.2)" fill="#2a50bf">
+      <path d="M12 .25a.75.75 0 0 1 .673.418l3.058 6.197 6.839.994a.75.75 0 0 1 .415 1.279l-4.948 4.823 1.168 6.811a.751.751 0 0 1-1.088.791L12 18.347l-6.117 3.216a.75.75 0 0 1-1.088-.79l1.168-6.812-4.948-4.823a.75.75 0 0 1 .416-1.28l6.838-.993L11.328.668A.75.75 0 0 1 12 .25Zm0 2.445L9.44 7.882a.75.75 0 0 1-.565.41l-5.725.832 4.143 4.038a.748.748 0 0 1 .215.664l-.978 5.702 5.121-2.692a.75.75 0 0 1 .698 0l5.12 2.692-.977-5.702a.748.748 0 0 1 .215-.664l4.143-4.038-5.725-.831a.75.75 0 0 1-.565-.41L12 2.694Z"/>
+    </g>
+    <text class="metric-label" x="214" y="352" text-anchor="middle">Total Stars</text>
+    <text class="metric-value" x="214" y="402" text-anchor="middle">{stars_text}</text>
+  </g>
 
-  <!-- Card 1 -->
-  <rect class="pill" x="20" y="84" width="140" height="78" rx="10" />
-  <text class="pill-icon" x="36" y="109">⭐</text>
-  <text class="pill-label" x="58" y="109">Total Stars</text>
-  <text class="pill-value" x="36" y="139">{total_stars}</text>
+  <g>
+    <rect x="334" y="232" width="192" height="192" rx="20" fill="url(#metricFill)"/>
+    <rect x="334.75" y="232.75" width="190.5" height="190.5" rx="19.25" stroke="#D6DDEA" stroke-width="1.5"/>
+    <g transform="translate(403.6 256.5) scale(2.2)" fill="#2a50bf">
+      <path d="M8.75 19.25a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0ZM15 4.75a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0Zm-12.5 0a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0ZM5.75 6.5a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 5.75 6.5ZM12 21a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 12 21Zm6.25-14.5a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 18.25 6.5Z"/>
+      <path d="M6.5 7.75v1A2.25 2.25 0 0 0 8.75 11h6.5a2.25 2.25 0 0 0 2.25-2.25v-1H19v1a3.75 3.75 0 0 1-3.75 3.75h-6.5A3.75 3.75 0 0 1 5 8.75v-1Z"/>
+      <path d="M11.25 16.25v-5h1.5v5h-1.5Z"/>
+    </g>
+    <text class="metric-label" x="430" y="352" text-anchor="middle">Total Forks</text>
+    <text class="metric-value" x="430" y="402" text-anchor="middle">{forks_text}</text>
+  </g>
 
-  <!-- Card 2 -->
-  <rect class="pill" x="177" y="84" width="140" height="78" rx="10" />
-  <text class="pill-icon" x="193" y="109">🍴</text>
-  <text class="pill-label" x="215" y="109">Total Forks</text>
-  <text class="pill-value" x="193" y="139">{total_forks}</text>
+  <g>
+    <rect x="550" y="232" width="192" height="192" rx="20" fill="url(#metricFill)"/>
+    <rect x="550.75" y="232.75" width="190.5" height="190.5" rx="19.25" stroke="#D6DDEA" stroke-width="1.5"/>
+    <g transform="translate(619.6 256.5) scale(2.2)" fill="#2a50bf">
+      <path d="M3 2.75A2.75 2.75 0 0 1 5.75 0h14.5a.75.75 0 0 1 .75.75v20.5a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h5.25v-4H6A1.5 1.5 0 0 0 4.5 18v.75c0 .716.43 1.334 1.05 1.605a.75.75 0 0 1-.6 1.374A3.251 3.251 0 0 1 3 18.75ZM19.5 1.5H5.75c-.69 0-1.25.56-1.25 1.25v12.651A2.989 2.989 0 0 1 6 15h13.5Z"/>
+      <path d="M7 18.25a.25.25 0 0 1 .25-.25h5a.25.25 0 0 1 .25.25v5.01a.25.25 0 0 1-.397.201l-2.206-1.604a.25.25 0 0 0-.294 0L7.397 23.46a.25.25 0 0 1-.397-.2v-5.01Z"/>
+    </g>
+    <text class="metric-label" x="646" y="352" text-anchor="middle">Repositories</text>
+    <text class="metric-value" x="646" y="402" text-anchor="middle">{repos_text}</text>
+  </g>
 
-  <!-- Card 3 -->
-  <rect class="pill" x="334" y="84" width="140" height="78" rx="10" />
-  <text class="pill-icon" x="350" y="109">📦</text>
-  <text class="pill-label" x="372" y="109">Repositories</text>
-  <text class="pill-value" x="350" y="139">{repo_count}</text>
-
-  <text class="footer" x="20" y="187">Updated: {updated_at}</text>
-  <text class="footer" x="475" y="187" text-anchor="end">Custom stats for contributed public repos</text>
+  <line x1="103" y1="474" x2="757" y2="474" stroke="#D6DDEA" stroke-width="1.5"/>
+  <text class="footer" x="430" y="498" text-anchor="middle">Updated: {updated_at}</text>
 </svg>
 """
 
