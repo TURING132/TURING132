@@ -20,29 +20,30 @@
       <stop stop-color="#FFFFFF"/>
       <stop offset="1" stop-color="#FBFCFF"/>
     </linearGradient>
-    <style>
-      .title {
-        font: 700 42px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-        fill: #2048b3;
-      }
-      .subtitle {
-        font: 400 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-        fill: #6d7a92;
-      }
-      .metric-label {
-        font: 400 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-        fill: #2d3444;
-      }
-      .metric-value {
-        font: 700 44px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-        fill: #1f2532;
-      }
-      .footer {
-        font: 400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-        fill: #6d7a92;
-      }
-    </style>
   </defs>
+
+  <style>
+    .title {
+      font: 700 42px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #2048b3;
+    }
+    .subtitle {
+      font: 400 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #6d7a92;
+    }
+    .metric-label {
+      font: 400 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #2d3444;
+    }
+    .metric-value {
+      font: 700 44px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #1f2532;
+    }
+    .footer {
+      font: 400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      fill: #6d7a92;
+    }
+  </style>
 
   <g filter="url(#cardShadow)">
     <rect x="69" y="58" width="722" height="408" rx="24" fill="url(#panelGlow)"/>
@@ -59,7 +60,7 @@
       <path d="M12 .25a.75.75 0 0 1 .673.418l3.058 6.197 6.839.994a.75.75 0 0 1 .415 1.279l-4.948 4.823 1.168 6.811a.751.751 0 0 1-1.088.791L12 18.347l-6.117 3.216a.75.75 0 0 1-1.088-.79l1.168-6.812-4.948-4.823a.75.75 0 0 1 .416-1.28l6.838-.993L11.328.668A.75.75 0 0 1 12 .25Zm0 2.445L9.44 7.882a.75.75 0 0 1-.565.41l-5.725.832 4.143 4.038a.748.748 0 0 1 .215.664l-.978 5.702 5.121-2.692a.75.75 0 0 1 .698 0l5.12 2.692-.977-5.702a.748.748 0 0 1 .215-.664l4.143-4.038-5.725-.831a.75.75 0 0 1-.565-.41L12 2.694Z"/>
     </g>
     <text class="metric-label" x="214" y="352" text-anchor="middle">Total Stars</text>
-    <text class="metric-value" x="214" y="402" text-anchor="middle">57</text>
+    <text class="metric-value" x="214" y="402" text-anchor="middle">49</text>
   </g>
 
   <g>
@@ -71,7 +72,7 @@
       <path d="M11.25 16.25v-5h1.5v5h-1.5Z"/>
     </g>
     <text class="metric-label" x="430" y="352" text-anchor="middle">Total Forks</text>
-    <text class="metric-value" x="430" y="402" text-anchor="middle">9</text>
+    <text class="metric-value" x="430" y="402" text-anchor="middle">5</text>
   </g>
 
   <g>
@@ -86,5 +87,5 @@
   </g>
 
   <line x1="103" y1="474" x2="757" y2="474" stroke="#D6DDEA" stroke-width="1.5"/>
-  <text class="footer" x="430" y="498" text-anchor="middle">Updated: 2026-04-25 09:48 UTC</text>
+  <text class="footer" x="430" y="498" text-anchor="middle">Updated: 2026-04-25 11:10 UTC</text>
 </svg>
