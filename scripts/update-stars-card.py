@@ -5,6 +5,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 REPOS = [
+    "aim-uofa/TVRBench",
     "aim-uofa/MMControl",
     "TURING132/ZJU-OS",
     "TURING132/Game",
