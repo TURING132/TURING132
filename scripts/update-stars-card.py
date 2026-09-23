@@ -7,17 +7,17 @@ from datetime import datetime, timezone
 REPOS = [
     "aim-uofa/TVRBench",
     "aim-uofa/MMControl",
-    "TURING132/ZJU-OS",
-    "TURING132/Game",
-    "TURING132/L_Library",
-    "TURING132/ZJU-database-DB-minisql",
+    "Li-Liyang/ZJU-OS",
+    "Li-Liyang/Game",
+    "Li-Liyang/L_Library",
+    "Li-Liyang/ZJU-database-DB-minisql",
 ]
 
 TOKEN = os.getenv("GITHUB_TOKEN")
 
 headers = {
     "Accept": "application/vnd.github+json",
-    "User-Agent": "TURING132-project-impact-card",
+    "User-Agent": "Li-Liyang-project-impact-card",
 }
 
 if TOKEN:
