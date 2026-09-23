@@ -1,8 +1,10 @@
-import os
+"""Refresh the profile's understated, self-hosted public-project stats card."""
+
 import json
+import os
 import urllib.request
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
 REPOS = [
     "aim-uofa/TVRBench",
@@ -13,145 +15,81 @@ REPOS = [
     "Li-Liyang/ZJU-database-DB-minisql",
 ]
 
-TOKEN = os.getenv("GITHUB_TOKEN")
-
-headers = {
-    "Accept": "application/vnd.github+json",
-    "User-Agent": "Li-Liyang-project-impact-card",
-}
-
-if TOKEN:
-    headers["Authorization"] = f"Bearer {TOKEN}"
-
 
 def fetch_repo(repo):
-    url = f"https://api.github.com/repos/{repo}"
-    request = urllib.request.Request(url, headers=headers)
-
-    with urllib.request.urlopen(request) as response:
-        data = json.loads(response.read().decode("utf-8"))
-
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "Li-Liyang-project-impact-card",
+    }
+    token = os.getenv("GITHUB_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    request = urllib.request.Request(
+        f"https://api.github.com/repos/{repo}", headers=headers
+    )
+    with urllib.request.urlopen(request, timeout=20) as response:
+        data = json.load(response)
     return {
         "repo": repo,
-        "stars": int(data.get("stargazers_count", 0)),
-        "forks": int(data.get("forks_count", 0)),
+        "stars": int(data["stargazers_count"]),
+        "forks": int(data["forks_count"]),
     }
 
 
-items = []
-for repo in REPOS:
-    try:
-        items.append(fetch_repo(repo))
-    except Exception as exc:
-        print(f"Failed to fetch {repo}: {exc}")
-
-total_stars = sum(item["stars"] for item in items)
-total_forks = sum(item["forks"] for item in items)
-repo_count = len(items)
-updated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-stars_text = f"{total_stars:,}"
-forks_text = f"{total_forks:,}"
-repos_text = f"{repo_count:,}"
-
-svg = f"""<svg width="860" height="560" viewBox="0 0 860 560" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Lee's GitHub Project Stats</title>
-  <desc id="desc">Custom GitHub stats card showing total stars, total forks, and repository count across selected public repositories contributed to by Lee.</desc>
-
-  <defs>
-    <filter id="cardShadow" x="33" y="38" width="794" height="484" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-      <feOffset dy="16"/>
-      <feGaussianBlur stdDeviation="18"/>
-      <feColorMatrix type="matrix" values="0 0 0 0 0.09 0 0 0 0 0.13 0 0 0 0 0.2 0 0 0 0.16 0"/>
-      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
-      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
-    </filter>
-    <linearGradient id="panelGlow" x1="430" y1="76" x2="430" y2="484" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFFFFF"/>
-      <stop offset="1" stop-color="#F8FAFD"/>
-    </linearGradient>
-    <linearGradient id="metricFill" x1="0" y1="0" x2="1" y2="1">
-      <stop stop-color="#FFFFFF"/>
-      <stop offset="1" stop-color="#FBFCFF"/>
-    </linearGradient>
-  </defs>
-
+def render_card(items, updated_at):
+    stars = sum(item["stars"] for item in items)
+    forks = sum(item["forks"] for item in items)
+    count = len(items)
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="640" height="224" viewBox="0 0 640 224" role="img" aria-labelledby="title desc">
+  <title id="title">Open-source footprint</title>
+  <desc id="desc">{stars:,} stars and {forks:,} forks across {count} selected public repositories that Lee owns or contributes to. Updated {updated_at} UTC.</desc>
   <style>
-    .title {{
-      font: 700 42px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      fill: #2048b3;
-    }}
-    .subtitle {{
-      font: 400 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      fill: #6d7a92;
-    }}
-    .metric-label {{
-      font: 400 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      fill: #2d3444;
-    }}
-    .metric-value {{
-      font: 700 44px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      fill: #1f2532;
-    }}
-    .footer {{
-      font: 400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      fill: #6d7a92;
+    .panel {{ fill: #F7F5F0; stroke: #E5E0D8; }}
+    .heading {{ fill: #504A43; font: 500 17px -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; }}
+    .note {{ fill: #756D63; font: 400 12px -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; }}
+    .value {{ fill: #4B453E; font: 500 34px -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; font-variant-numeric: tabular-nums; }}
+    .label {{ fill: #756D63; font: 400 12px -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; letter-spacing: 0.3px; }}
+    .rule {{ stroke: #E5E0D8; }}
+    .accent {{ fill: #B58D7B; }}
+    @media (prefers-color-scheme: dark) {{
+      .panel {{ fill: #262522; stroke: #403D37; }}
+      .heading, .value {{ fill: #E9E3D9; }}
+      .note, .label {{ fill: #B7AEA1; }}
+      .rule {{ stroke: #403D37; }}
+      .accent {{ fill: #C29C87; }}
     }}
   </style>
 
-  <g filter="url(#cardShadow)">
-    <rect x="69" y="58" width="722" height="408" rx="24" fill="url(#panelGlow)"/>
-    <rect x="69.75" y="58.75" width="720.5" height="406.5" rx="23.25" stroke="#D6DDEA" stroke-width="1.5"/>
-  </g>
+  <rect class="panel" x="0.5" y="0.5" width="639" height="223" rx="14"/>
+  <circle class="accent" cx="34" cy="36" r="3"/>
+  <text class="heading" x="46" y="42">Open-source footprint</text>
+  <text class="note" x="32" y="65">Selected public repositories I own or contribute to</text>
 
-  <text class="title" x="118" y="145">Lee's GitHub Project Stats</text>
-  <text class="subtitle" x="118" y="190">Public repositories I own or actively contribute to</text>
+  <path class="rule" d="M224 92V153 M424 92V153"/>
+  <text class="value" x="32" y="124">{stars:,}</text>
+  <text class="label" x="32" y="149">Stars</text>
+  <text class="value" x="248" y="124">{forks:,}</text>
+  <text class="label" x="248" y="149">Forks</text>
+  <text class="value" x="448" y="124">{count}</text>
+  <text class="label" x="448" y="149">Repositories</text>
 
-  <g>
-    <rect x="118" y="232" width="192" height="192" rx="20" fill="url(#metricFill)"/>
-    <rect x="118.75" y="232.75" width="190.5" height="190.5" rx="19.25" stroke="#D6DDEA" stroke-width="1.5"/>
-    <g transform="translate(187.6 256.5) scale(2.2)" fill="#2a50bf">
-      <path d="M12 .25a.75.75 0 0 1 .673.418l3.058 6.197 6.839.994a.75.75 0 0 1 .415 1.279l-4.948 4.823 1.168 6.811a.751.751 0 0 1-1.088.791L12 18.347l-6.117 3.216a.75.75 0 0 1-1.088-.79l1.168-6.812-4.948-4.823a.75.75 0 0 1 .416-1.28l6.838-.993L11.328.668A.75.75 0 0 1 12 .25Zm0 2.445L9.44 7.882a.75.75 0 0 1-.565.41l-5.725.832 4.143 4.038a.748.748 0 0 1 .215.664l-.978 5.702 5.121-2.692a.75.75 0 0 1 .698 0l5.12 2.692-.977-5.702a.748.748 0 0 1 .215-.664l4.143-4.038-5.725-.831a.75.75 0 0 1-.565-.41L12 2.694Z"/>
-    </g>
-    <text class="metric-label" x="214" y="352" text-anchor="middle">Total Stars</text>
-    <text class="metric-value" x="214" y="402" text-anchor="middle">{stars_text}</text>
-  </g>
-
-  <g>
-    <rect x="334" y="232" width="192" height="192" rx="20" fill="url(#metricFill)"/>
-    <rect x="334.75" y="232.75" width="190.5" height="190.5" rx="19.25" stroke="#D6DDEA" stroke-width="1.5"/>
-    <g transform="translate(403.6 256.5) scale(2.2)" fill="#2a50bf">
-      <path d="M8.75 19.25a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0ZM15 4.75a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0Zm-12.5 0a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0ZM5.75 6.5a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 5.75 6.5ZM12 21a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 12 21Zm6.25-14.5a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 18.25 6.5Z"/>
-      <path d="M6.5 7.75v1A2.25 2.25 0 0 0 8.75 11h6.5a2.25 2.25 0 0 0 2.25-2.25v-1H19v1a3.75 3.75 0 0 1-3.75 3.75h-6.5A3.75 3.75 0 0 1 5 8.75v-1Z"/>
-      <path d="M11.25 16.25v-5h1.5v5h-1.5Z"/>
-    </g>
-    <text class="metric-label" x="430" y="352" text-anchor="middle">Total Forks</text>
-    <text class="metric-value" x="430" y="402" text-anchor="middle">{forks_text}</text>
-  </g>
-
-  <g>
-    <rect x="550" y="232" width="192" height="192" rx="20" fill="url(#metricFill)"/>
-    <rect x="550.75" y="232.75" width="190.5" height="190.5" rx="19.25" stroke="#D6DDEA" stroke-width="1.5"/>
-    <g transform="translate(619.6 256.5) scale(2.2)" fill="#2a50bf">
-      <path d="M3 2.75A2.75 2.75 0 0 1 5.75 0h14.5a.75.75 0 0 1 .75.75v20.5a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h5.25v-4H6A1.5 1.5 0 0 0 4.5 18v.75c0 .716.43 1.334 1.05 1.605a.75.75 0 0 1-.6 1.374A3.251 3.251 0 0 1 3 18.75ZM19.5 1.5H5.75c-.69 0-1.25.56-1.25 1.25v12.651A2.989 2.989 0 0 1 6 15h13.5Z"/>
-      <path d="M7 18.25a.25.25 0 0 1 .25-.25h5a.25.25 0 0 1 .25.25v5.01a.25.25 0 0 1-.397.201l-2.206-1.604a.25.25 0 0 0-.294 0L7.397 23.46a.25.25 0 0 1-.397-.2v-5.01Z"/>
-    </g>
-    <text class="metric-label" x="646" y="352" text-anchor="middle">Repositories</text>
-    <text class="metric-value" x="646" y="402" text-anchor="middle">{repos_text}</text>
-  </g>
-
-  <line x1="103" y1="474" x2="757" y2="474" stroke="#D6DDEA" stroke-width="1.5"/>
-  <text class="footer" x="430" y="498" text-anchor="middle">Updated: {updated_at}</text>
+  <path class="rule" d="M32 174H608"/>
+  <text class="note" x="32" y="200">A little work, shared.</text>
+  <text class="note" x="608" y="200" text-anchor="end">Updated {updated_at} UTC</text>
 </svg>
 """
 
-output_dir = Path("assets")
-output_dir.mkdir(exist_ok=True)
 
-Path("assets/project-impact.svg").write_text(svg, encoding="utf-8")
+def main():
+    # Keep the previous card if any request fails, rather than publishing
+    # misleading partial totals.
+    items = [fetch_repo(repo) for repo in REPOS]
+    updated_at = datetime.now(timezone.utc).strftime("%Y.%m.%d")
+    output = Path("assets/project-impact.svg")
+    output.parent.mkdir(exist_ok=True)
+    output.write_text(render_card(items, updated_at), encoding="utf-8")
+    print(f"Updated {output} from {len(items)} public repositories.")
 
-print("Generated assets/project-impact.svg")
-print(f"Total stars: {total_stars}")
-print(f"Total forks: {total_forks}")
-print(f"Repositories: {repo_count}")
+
+if __name__ == "__main__":
+    main()
