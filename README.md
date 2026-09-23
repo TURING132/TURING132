@@ -9,5 +9,5 @@ My research interests lie in **World Model** and **Robot Learning**.
 <p align="center"><em>S’all good, man.</em></p>
 
 <p align="center">
-  <img src="assets/project-impact.svg" alt="Stars and forks across selected public repositories I own or contribute to" width="640" />
+  <img src="assets/project-impact.svg" alt="Stars and forks across selected public repositories I own or contribute to" width="480" />
 </p>
